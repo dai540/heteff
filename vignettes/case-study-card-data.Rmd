@@ -1,0 +1,130 @@
+---
+title: "Case Study: card.data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Case Study: card.data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 8, fig.height = 5.5)
+```
+
+```{r}
+library(heteff)
+```
+
+## Background
+
+`ivmodel::card.data` is one of the standard teaching datasets for instrumental
+variables. It studies returns to schooling using college proximity as an
+instrument for education.
+
+## Objective
+
+The goal is to move from a single IV estimate to a subgroup-specific local IV
+effect. The question becomes:
+
+\[
+\tau(x) = \frac{\mathrm{Cov}(Y, Z \mid X = x)}
+{\mathrm{Cov}(W, Z \mid X = x)},
+\]
+
+where \(Y\) is log wage, \(W\) is years of education, \(Z\) is college
+proximity, and \(X\) contains observed background variables.
+
+## Analysis setup
+
+```{r}
+dat <- prepare_case_card_data()
+
+fit <- fit_instrumental_forest(
+  data = dat,
+  outcome = "outcome",
+  treatment = "treatment",
+  instrument = "instrument",
+  covariates = setdiff(names(dat), c("sample_id", "outcome", "treatment", "instrument")),
+  sample_id = "sample_id",
+  seed = 123,
+  num_trees = 400,
+  tree_minbucket = 160
+)
+
+fit$check_table
+fit$subgroup_table
+```
+
+## Design view
+
+```{r eval = requireNamespace("ggdag", quietly = TRUE) && requireNamespace("dagitty", quietly = TRUE)}
+plot_instrumental_dag()
+```
+
+The DAG emphasizes why IV is needed: unmeasured determinants of schooling and
+wages can bias a naive observational effect of education.
+
+## First stage
+
+```{r}
+plot_first_stage(fit)
+```
+
+The first-stage figure shows whether the instrument visibly shifts education.
+This is not a full relevance analysis, but it is a useful visual complement to
+the first-stage F-statistic in `check_table`.
+
+## Reduced form
+
+```{r}
+plot_reduced_form(fit)
+```
+
+The reduced-form plot shows whether the instrument is also associated with the
+outcome. Together, the first-stage and reduced-form views help interpret the
+ratio estimand used by the instrumental forest.
+
+## Heterogeneous effect summary
+
+```{r}
+plot_subgroup_effects(fit)
+```
+
+The subgroup plot shows that the local IV effect is not estimated as constant.
+In this example, parental education and labor-market experience help organize
+the heterogeneity.
+
+## Explanation tree
+
+```{r}
+plot_effect_tree(fit)
+```
+
+The explanation tree provides a readable summary of where the forest places its
+largest local-effect differences.
+
+## Variable importance
+
+```{r}
+plot_variable_importance(fit)
+```
+
+The top variables line up with an interpretable story: background advantage and
+experience shape where education returns appear most differentiated.
+
+## Interpretation
+
+This case study is useful because it turns a standard IV tutorial into a
+heterogeneity tutorial:
+
+- the first stage is visible,
+- the reduced form is visible,
+- subgroup differences can be summarized rather than left as one global IV
+  coefficient.
+
+## Limitations
+
+The package still reports weak-IV warnings for some leaves in this dataset.
+That means subgroup interpretation should be cautious. The local IV forest is
+most informative as a structured exploration of heterogeneous compliance-driven
+effects, not as automatic evidence that every leaf is equally well identified.

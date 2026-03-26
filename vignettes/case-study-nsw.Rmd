@@ -1,0 +1,121 @@
+---
+title: "Case Study: NSW job training"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Case Study: NSW job training}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 8, fig.height = 5.5)
+```
+
+```{r}
+library(heteff)
+```
+
+## Background
+
+`causaldata::nsw_mixtape` is a standard program-evaluation dataset built around
+the National Supported Work training program. It is widely used in causal
+inference tutorials because treatment is binary, outcomes are economically
+meaningful, and baseline heterogeneity is plausible.
+
+## Objective
+
+The question here is whether the earnings benefit of job training differs by
+pre-treatment labor-market history and demographic background.
+
+The estimand is again:
+
+\[
+\tau(x) = E[Y(1) - Y(0) \mid X = x],
+\]
+
+where \(Y\) is post-program earnings and \(W\) is program participation.
+
+## Analysis setup
+
+```{r}
+dat <- prepare_case_nsw()
+
+fit <- fit_observational_forest(
+  data = dat,
+  outcome = "outcome",
+  treatment = "treatment",
+  covariates = setdiff(names(dat), c("sample_id", "outcome", "treatment")),
+  sample_id = "sample_id",
+  seed = 123,
+  num_trees = 400,
+  tree_minbucket = 50
+)
+
+fit$check_table
+fit$subgroup_table
+```
+
+## Design view
+
+```{r eval = requireNamespace("ggdag", quietly = TRUE) && requireNamespace("dagitty", quietly = TRUE)}
+plot_observational_dag()
+```
+
+In this tutorial, the DAG emphasizes baseline confounding by age, education,
+marital status, and lagged earnings history.
+
+## Treatment and outcome pattern
+
+```{r}
+plot_treatment_outcome(fit)
+```
+
+The raw treatment-outcome view gives the scale of the earnings outcome and
+helps contextualize the subgroup-specific effect estimates.
+
+## Heterogeneous effect summary
+
+```{r}
+plot_subgroup_effects(fit)
+```
+
+The subgroup summary shows a clear gradient: older and more educated strata in
+this analysis tend to have larger predicted earnings gains than the youngest,
+least educated stratum.
+
+## Explanation tree
+
+```{r}
+plot_effect_tree(fit)
+```
+
+The explanation tree provides a readable program-evaluation story. Age and
+education dominate the first splits, which aligns with an economic hypothesis
+that labor-market readiness modifies the returns to training.
+
+## Variable importance
+
+```{r}
+plot_variable_importance(fit)
+```
+
+Lagged earnings also appear among the leading variables, which is consistent
+with the idea that pre-program attachment to the labor market helps organize
+treatment heterogeneity.
+
+## Interpretation
+
+This case study is useful because the learned heterogeneity is substantively
+readable:
+
+- age and education anchor the subgroup tree,
+- prior earnings remain important,
+- estimated gains differ enough across leaves to make subgroup summaries worth
+  reporting.
+
+## Limitations
+
+Even in a familiar teaching dataset, subgroup patterns should not be overread.
+The explanation tree is still a second-stage summary of forest predictions, and
+the subgrouping pattern can move under alternative tuning or alternative
+covariate definitions.

@@ -1,0 +1,114 @@
+---
+title: "Case Study: Rotterdam survival"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Case Study: Rotterdam survival}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 8, fig.height = 5.5)
+```
+
+```{r}
+library(heteff)
+```
+
+## Background
+
+`survival::rotterdam` is a richer oncology survival dataset than `veteran`,
+with tumor biology and treatment variables that allow a more structured
+heterogeneity analysis.
+
+## Objective
+
+The goal is to study whether chemotherapy benefit varies with baseline disease
+burden and receptor-related biomarkers.
+
+At horizon \(h = 8\) years, the forest targets subgroup-specific survival
+effects summarized as RMST differences or survival-probability differences,
+depending on the chosen target.
+
+## Analysis setup
+
+```{r}
+dat <- prepare_case_rotterdam()
+
+fit <- fit_survival_forest(
+  data = dat,
+  time = "time",
+  event = "event",
+  treatment = "treatment",
+  covariates = setdiff(names(dat), c("sample_id", "time", "event", "treatment")),
+  sample_id = "sample_id",
+  horizon = 8,
+  seed = 123,
+  num_trees = 400,
+  tree_minbucket = 120
+)
+
+fit$check_table
+fit$subgroup_table
+```
+
+## Design view
+
+```{r eval = requireNamespace("ggdag", quietly = TRUE) && requireNamespace("dagitty", quietly = TRUE)}
+plot_observational_dag()
+```
+
+The interpretation is observational: baseline clinical and tumor features are
+used to adjust treatment comparisons and to discover effect modifiers.
+
+## Treatment and observed time
+
+```{r}
+plot_treatment_outcome(fit)
+```
+
+The treatment-outcome panel gives a first sense of follow-up scale and censoring.
+
+## Heterogeneous effect summary
+
+```{r}
+plot_subgroup_effects(fit)
+```
+
+Compared with the simpler survival example, the Rotterdam case produces a more
+layered subgroup structure. The estimated effects vary across receptor-related
+and prognostic strata.
+
+## Explanation tree
+
+```{r}
+plot_effect_tree(fit)
+```
+
+The explanation tree is useful here because it turns a high-dimensional survival
+forest into a compact rule system involving `pgr`, `er`, `age`, and `size`.
+
+## Variable importance
+
+```{r}
+plot_variable_importance(fit)
+```
+
+The importance ranking confirms that biologically meaningful covariates drive
+most of the heterogeneity in this example.
+
+## Interpretation
+
+This case study is a stronger showcase for the survival workflow because:
+
+- the covariate space is richer,
+- the resulting subgroups are more structured,
+- the variable-importance and tree outputs align with recognizable clinical
+  axes.
+
+## Limitations
+
+The diagnostics for this dataset can still raise overlap or censoring warnings.
+Those warnings should be interpreted seriously. They do not invalidate the
+workflow, but they do limit how strongly the subgroup effects should be treated
+as decision-ready estimates.

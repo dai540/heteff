@@ -1,0 +1,119 @@
+---
+title: "Case Study: Veteran survival"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Case Study: Veteran survival}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 8, fig.height = 5.5)
+```
+
+```{r}
+library(heteff)
+```
+
+## Background
+
+`survival::veteran` is a compact clinical survival dataset with treatment,
+follow-up time, event status, and baseline prognostic variables such as
+performance status and diagnosis time.
+
+## Objective
+
+The main question is whether the treatment effect on survival differs across
+baseline prognosis strata.
+
+At horizon \(h = 6\) months, the analysis targets a subgroup-specific survival
+effect:
+
+\[
+\tau_h(x) = E[\min(T(1), h) - \min(T(0), h) \mid X = x]
+\]
+
+under the RMST target used by the package default.
+
+## Analysis setup
+
+```{r}
+dat <- prepare_case_veteran()
+
+fit <- fit_survival_forest(
+  data = dat,
+  time = "time",
+  event = "event",
+  treatment = "treatment",
+  covariates = setdiff(names(dat), c("sample_id", "time", "event", "treatment")),
+  sample_id = "sample_id",
+  horizon = 6,
+  seed = 123,
+  num_trees = 400,
+  tree_minbucket = 25
+)
+
+fit$check_table
+fit$subgroup_table
+```
+
+## Design view
+
+```{r eval = requireNamespace("ggdag", quietly = TRUE) && requireNamespace("dagitty", quietly = TRUE)}
+plot_observational_dag()
+```
+
+For survival settings the same baseline-adjustment idea applies, but the
+outcome is now right-censored time-to-event data rather than a scalar endpoint.
+
+## Treatment and observed time
+
+```{r}
+plot_treatment_outcome(fit)
+```
+
+This figure shows the observed-time distribution by treatment, including the
+event/censoring split.
+
+## Heterogeneous effect summary
+
+```{r}
+plot_subgroup_effects(fit)
+```
+
+The subgroup summary suggests that treatment benefit is not uniform. Baseline
+diagnosis time and Karnofsky performance status drive the main separation.
+
+## Explanation tree
+
+```{r}
+plot_effect_tree(fit)
+```
+
+The tree shows a clinically interpretable pattern: prognosis variables organize
+the treatment-effect surface, and the lowest-performance groups are separated
+from better-functioning groups.
+
+## Variable importance
+
+```{r}
+plot_variable_importance(fit)
+```
+
+The importance chart reinforces that age, diagnosis time, and Karnofsky score
+carry most of the heterogeneity signal.
+
+## Interpretation
+
+This is a good survival tutorial because the results are interpretable:
+
+- clinically recognizable predictors dominate,
+- subgroup effects differ enough to justify forest-based heterogeneity analysis,
+- the explanation tree remains readable.
+
+## Limitations
+
+This is still a small teaching dataset. Survival forests are sensitive to
+censoring patterns, horizon choice, and treatment overlap. Subgroup summaries
+should therefore be viewed as structured exploratory evidence rather than as a
+finished treatment rule.

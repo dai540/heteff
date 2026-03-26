@@ -1,0 +1,116 @@
+---
+title: "Case Study: SchoolingReturns"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Case Study: SchoolingReturns}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 8, fig.height = 5.5)
+```
+
+```{r}
+library(heteff)
+```
+
+## Background
+
+`ivreg::SchoolingReturns` is another returns-to-schooling dataset with college
+proximity instruments and a richer collection of baseline socioeconomic
+covariates than the simpler Card example.
+
+## Objective
+
+The purpose of this tutorial is to show the same IV workflow on a higher
+dimensional baseline space. The estimand is the subgroup-specific local IV
+effect of education on log wages.
+
+## Analysis setup
+
+```{r}
+dat <- prepare_case_schooling_returns()
+
+fit <- fit_instrumental_forest(
+  data = dat,
+  outcome = "outcome",
+  treatment = "treatment",
+  instrument = "instrument",
+  covariates = setdiff(names(dat), c("sample_id", "outcome", "treatment", "instrument")),
+  sample_id = "sample_id",
+  seed = 123,
+  num_trees = 400,
+  tree_minbucket = 80
+)
+
+fit$check_table
+fit$subgroup_table
+```
+
+## Design view
+
+```{r eval = requireNamespace("ggdag", quietly = TRUE) && requireNamespace("dagitty", quietly = TRUE)}
+plot_instrumental_dag()
+```
+
+The DAG is the same IV logic as in the Card example, but the baseline
+covariates now allow a more detailed heterogeneity decomposition.
+
+## First stage
+
+```{r}
+plot_first_stage(fit)
+```
+
+The first-stage panel shows the instrument-exposure link at the analysis-table
+level.
+
+## Reduced form
+
+```{r}
+plot_reduced_form(fit)
+```
+
+The reduced-form panel complements the first stage by showing the
+instrument-outcome relationship.
+
+## Heterogeneous effect summary
+
+```{r}
+plot_subgroup_effects(fit)
+```
+
+The subgroup plot suggests that local IV effects differ across baseline family
+education and cognitive-score profiles.
+
+## Explanation tree
+
+```{r}
+plot_effect_tree(fit)
+```
+
+The explanation tree turns the forest predictions into readable rules. In this
+example, parental education, baseline schooling, and measured skill variables
+all contribute.
+
+## Variable importance
+
+```{r}
+plot_variable_importance(fit)
+```
+
+The importance ranking helps connect the tree back to the full forest fit.
+
+## Interpretation
+
+This tutorial is valuable because it shows that the instrumental workflow is
+not limited to one famous teaching dataset. The same logic transfers to a
+larger baseline space, while keeping a consistent set of outputs.
+
+## Limitations
+
+As with any local IV analysis, interpretation depends on instrument validity
+and local compliance. The subgroup rules should therefore be read as summaries
+of where the local IV effect appears to vary, not as universal returns to
+schooling estimates for all populations.

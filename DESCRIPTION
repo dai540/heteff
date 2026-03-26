@@ -1,0 +1,50 @@
+Package: heteff
+Type: Package
+Title: Simple GRF Workflows for Heterogeneous Effects
+Version: 2.1.0
+Authors@R: c(
+    person(
+      given = "Dai",
+      family = "",
+      role = c("aut", "cre"),
+      email = "dai@example.com"
+    )
+  )
+Description: Provides a simple interface around three generalized random
+    forest estimators: grf::causal_forest(), grf::causal_survival_forest(),
+    and grf::instrumental_forest(). The package returns reusable effect
+    tables, subgroup summaries, explanation-tree outputs, variable-importance
+    tables, diagnostics, and a compact set of plots for heterogeneous causal
+    effect analysis.
+URL: https://dai540.github.io/heteff
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends:
+    R (>= 4.2.0)
+Imports:
+    grf,
+    rpart,
+    survival,
+    stats,
+    utils,
+    graphics
+Suggests:
+    AER,
+    causaldata,
+    dagitty,
+    fastshap,
+    ggplot2,
+    ggdag,
+    htetree,
+    ivreg,
+    ivmodel,
+    knitr,
+    pkgdown,
+    rpart.plot,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Config/Needs/website: pkgdown
+VignetteBuilder: knitr

@@ -1,0 +1,10 @@
+.Rhistory
+.RData
+.Ruserdata
+*.tar.gz
+*.Rcheck/
+.DS_Store
+Thumbs.db
+
+# Local nested duplicate package copy
+/heteff/

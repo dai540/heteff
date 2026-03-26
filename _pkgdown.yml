@@ -1,0 +1,92 @@
+url: https://dai540.github.io/heteff/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+
+development:
+  mode: unreleased
+
+home:
+  title: heteff
+  description: Simple generalized random forest workflows for observational, survival, and instrumental heterogeneous effect analysis.
+  sidebar:
+    structure: [authors, dev]
+
+navbar:
+  structure:
+    left: [intro, reference, articles]
+    right: [search]
+  components:
+    intro:
+      text: Get Started
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+
+articles:
+  - title: Core tutorials
+    navbar: Core
+    contents:
+      - getting-started
+      - theory-and-design
+  - title: Observational forests
+    navbar: Observational
+    contents:
+      - case-study-nhefs
+      - case-study-nsw
+  - title: Survival forests
+    navbar: Survival
+    contents:
+      - case-study-veteran
+      - case-study-rotterdam
+  - title: Instrumental forests
+    navbar: Instrumental
+    contents:
+      - case-study-card-data
+      - case-study-schooling-returns
+
+reference:
+  - title: Core workflows
+    contents:
+      - fit_observational_forest
+      - fit_survival_forest
+      - fit_instrumental_forest
+      - case_study_catalog
+      - available_case_studies
+      - run_case_study
+      - export_tables
+      - export_plots
+  - title: Main plots
+    contents:
+      - plot_observational_dag
+      - plot_instrumental_dag
+      - plot_treatment_outcome
+      - plot_first_stage
+      - plot_reduced_form
+      - plot_subgroup_effects
+      - plot_effect_tree
+      - plot_variable_importance
+  - title: Example data
+    contents:
+      - simulate_observational_data
+      - simulate_survival_data
+      - simulate_instrumental_data
+      - prepare_case_nhefs
+      - prepare_case_nsw
+      - prepare_case_veteran
+      - prepare_case_rotterdam
+      - prepare_case_card_data
+      - prepare_case_schooling_returns
+  - title: Supplementary helpers
+    contents:
+      - print.heteff_fit
+      - plot.heteff_fit
+      - plot_effect_distribution
+      - build_instrument_score
+      - explain_effect_shap
+      - summarize_shap
+      - plot_shap_importance
+      - fit_causal_tree_explorer
+      - plot_causal_tree_explorer

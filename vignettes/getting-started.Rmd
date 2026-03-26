@@ -1,0 +1,187 @@
+---
+title: "Getting Started with heteff"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with heteff}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 8, fig.height = 5.5)
+```
+
+```{r}
+library(heteff)
+```
+
+`heteff` standardizes three generalized random forest workflows:
+
+- observational causal forests
+- causal survival forests
+- instrumental forests
+
+The package keeps one interface and one output shape across these workflows.
+
+## Core estimands
+
+### Observational effect
+
+\[
+\tau(x) = E[Y(1) - Y(0) \mid X = x]
+\]
+
+### Survival effect
+
+At a fixed horizon \(h\), `heteff` estimates subgroup-specific RMST differences
+or survival-probability differences.
+
+### Instrumental effect
+
+\[
+\tau(x) = \frac{\mathrm{Cov}(Y, Z \mid X = x)}{\mathrm{Cov}(W, Z \mid X = x)}
+\]
+
+## 1. Observational workflow
+
+```{r}
+obs_data <- simulate_observational_data(n = 1600, seed = 123)
+
+fit_obs <- fit_observational_forest(
+  data = obs_data,
+  outcome = "outcome",
+  treatment = "treatment",
+  covariates = c(
+    "age", "sex", "ecog", "line", "liver_met", "tmb", "msi",
+    "signature_ifn", "baseline_ctdna", "albumin", "crp", "site_volume"
+  ),
+  sample_id = "sample_id",
+  seed = 123,
+  num_trees = 400,
+  tree_minbucket = 60
+)
+
+fit_obs$subgroup_table
+```
+
+```{r eval = requireNamespace("ggdag", quietly = TRUE) && requireNamespace("dagitty", quietly = TRUE)}
+plot_observational_dag()
+```
+
+```{r}
+plot_treatment_outcome(fit_obs)
+```
+
+```{r}
+plot_subgroup_effects(fit_obs)
+```
+
+```{r}
+plot_effect_tree(fit_obs)
+```
+
+## 2. Survival workflow
+
+```{r}
+surv_data <- simulate_survival_data(n = 1600, seed = 321, horizon = 12)
+
+fit_surv <- fit_survival_forest(
+  data = surv_data,
+  time = "time",
+  event = "event",
+  treatment = "treatment",
+  covariates = c(
+    "age", "sex", "ecog", "line", "liver_met", "inflammation",
+    "biomarker", "pathway_score", "steroid"
+  ),
+  horizon = 12,
+  sample_id = "sample_id",
+  seed = 321,
+  num_trees = 400,
+  tree_minbucket = 60
+)
+
+fit_surv$subgroup_table
+```
+
+```{r eval = requireNamespace("ggdag", quietly = TRUE) && requireNamespace("dagitty", quietly = TRUE)}
+plot_observational_dag()
+```
+
+```{r}
+plot_treatment_outcome(fit_surv)
+```
+
+```{r}
+plot_subgroup_effects(fit_surv)
+```
+
+```{r}
+plot_effect_tree(fit_surv)
+```
+
+## 3. Instrumental workflow
+
+```{r}
+iv_data <- simulate_instrumental_data(n = 1600, seed = 456)
+
+fit_iv <- fit_instrumental_forest(
+  data = iv_data,
+  outcome = "outcome",
+  treatment = "treatment",
+  instrument = "instrument",
+  covariates = c(
+    "age", "sex", "bmi", "smoking", "pc1", "pc2",
+    "center", "batch", "baseline_risk"
+  ),
+  sample_id = "sample_id",
+  seed = 456,
+  num_trees = 400,
+  tree_minbucket = 60
+)
+
+fit_iv$subgroup_table
+```
+
+```{r eval = requireNamespace("ggdag", quietly = TRUE) && requireNamespace("dagitty", quietly = TRUE)}
+plot_instrumental_dag()
+```
+
+```{r}
+plot_first_stage(fit_iv)
+```
+
+```{r}
+plot_reduced_form(fit_iv)
+```
+
+```{r}
+plot_subgroup_effects(fit_iv)
+```
+
+```{r}
+plot_effect_tree(fit_iv)
+```
+
+## Common output tables
+
+Every `heteff_fit` object returns the same top-level outputs:
+
+- `effect_table`
+- `subgroup_table`
+- `tree_table`
+- `ranking_table`
+- `check_table`
+- `estimand_table`
+- `variable_importance`
+
+```{r}
+names(fit_iv)
+```
+
+## Export tables and plots
+
+```{r eval = FALSE}
+export_tables(fit_iv, "output")
+export_plots(fit_iv, "output")
+```

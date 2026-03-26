@@ -1,0 +1,7 @@
+"check_name","value","status"
+"rows_used",445,"info"
+"rows_dropped_missing",0,"ok"
+"outcome_sd",6631.49168061736,"ok"
+"treatment_sd",0.493402161409833,"ok"
+"treatment_rate",0.415730337078652,"info"
+"covariate_count",12,"info"
