@@ -1,0 +1,333 @@
+# heteff
+
+`heteff` is a focused R package for heterogeneous effect estimation with
+three generalized random forest workflows:
+
+- [`fit_observational_forest()`](https://dai540.github.io/heteff/reference/fit_observational_forest.md)
+  for conditional treatment effects
+- [`fit_survival_forest()`](https://dai540.github.io/heteff/reference/fit_survival_forest.md)
+  for right-censored heterogeneous survival effects
+- [`fit_instrumental_forest()`](https://dai540.github.io/heteff/reference/fit_instrumental_forest.md)
+  for conditional local IV effects
+
+The package is intentionally narrow. It does not try to wrap all of
+`grf`. Instead, it standardizes the workflows, tables, plots, and
+tutorials around the three estimators that are most useful for
+heterogeneous effect analysis.
+
+## Website publishing
+
+`heteff` is already structured to publish a standard pkgdown site with
+GitHub Pages.
+
+Before the first public deployment:
+
+1.  Replace the placeholder `url:` line in
+    [`_pkgdown.yml`](https://dai540.github.io/heteff/_pkgdown.yml) with
+    your actual GitHub Pages URL.
+2.  Push the whole repository to GitHub.
+3.  In the repository settings, enable GitHub Pages from the `gh-pages`
+    branch.
+
+This repository also includes a GitHub Actions workflow for rebuilding
+the site after updates and publishing the rendered HTML.
+
+## Core estimands
+
+### Observational workflow
+
+\[ (x) = E\[Y(1) - Y(0) X = x\] \]
+
+### Survival workflow
+
+At a user-specified horizon, `heteff` estimates either:
+
+- subgroup-specific restricted mean survival time differences
+- subgroup-specific survival-probability differences
+
+### Instrumental workflow
+
+\[ (x) = \]
+
+## What heteff does
+
+`heteff` does three things.
+
+- Fits one of three `grf` estimators from a single analysis table
+- Converts sample-level predictions into reusable effect tables and
+  subgroup tables
+- Adds a compact interpretation layer through standard plots and
+  explanation trees
+
+In practice, the package is doing this:
+
+- [`fit_observational_forest()`](https://dai540.github.io/heteff/reference/fit_observational_forest.md)
+  runs
+  [`grf::causal_forest()`](https://rdrr.io/pkg/grf/man/causal_forest.html)
+- [`fit_survival_forest()`](https://dai540.github.io/heteff/reference/fit_survival_forest.md)
+  runs
+  [`grf::causal_survival_forest()`](https://rdrr.io/pkg/grf/man/causal_survival_forest.html)
+- [`fit_instrumental_forest()`](https://dai540.github.io/heteff/reference/fit_instrumental_forest.md)
+  runs
+  [`grf::instrumental_forest()`](https://rdrr.io/pkg/grf/man/instrumental_forest.html)
+- each fit is converted into:
+  - `effect_table`
+  - `subgroup_table`
+  - `tree_table`
+  - `ranking_table`
+  - `check_table`
+  - `estimand_table`
+  - `variable_importance`
+- a shallow explanation tree is fit on predicted heterogeneous effects
+  so that subgroup rules are readable
+
+## Main functions
+
+- [`fit_observational_forest()`](https://dai540.github.io/heteff/reference/fit_observational_forest.md)
+- [`fit_survival_forest()`](https://dai540.github.io/heteff/reference/fit_survival_forest.md)
+- [`fit_instrumental_forest()`](https://dai540.github.io/heteff/reference/fit_instrumental_forest.md)
+- [`case_study_catalog()`](https://dai540.github.io/heteff/reference/case_study_catalog.md)
+- [`run_case_study()`](https://dai540.github.io/heteff/reference/run_case_study.md)
+- [`export_tables()`](https://dai540.github.io/heteff/reference/export_tables.md)
+- [`export_plots()`](https://dai540.github.io/heteff/reference/export_plots.md)
+
+## Standard plots
+
+### Observational and survival workflows
+
+- [`plot_observational_dag()`](https://dai540.github.io/heteff/reference/plot_observational_dag.md)
+- [`plot_treatment_outcome()`](https://dai540.github.io/heteff/reference/plot_treatment_outcome.md)
+- [`plot_subgroup_effects()`](https://dai540.github.io/heteff/reference/plot_subgroup_effects.md)
+- [`plot_effect_tree()`](https://dai540.github.io/heteff/reference/plot_effect_tree.md)
+- [`plot_variable_importance()`](https://dai540.github.io/heteff/reference/plot_variable_importance.md)
+
+### Instrumental workflows
+
+- [`plot_instrumental_dag()`](https://dai540.github.io/heteff/reference/plot_instrumental_dag.md)
+- [`plot_first_stage()`](https://dai540.github.io/heteff/reference/plot_first_stage.md)
+- [`plot_reduced_form()`](https://dai540.github.io/heteff/reference/plot_reduced_form.md)
+- [`plot_subgroup_effects()`](https://dai540.github.io/heteff/reference/plot_subgroup_effects.md)
+- [`plot_effect_tree()`](https://dai540.github.io/heteff/reference/plot_effect_tree.md)
+- [`plot_variable_importance()`](https://dai540.github.io/heteff/reference/plot_variable_importance.md)
+
+## Built-in tutorial datasets
+
+The package now ships with public case studies across several domains.
+
+### Observational forests
+
+- `observational_nhefs`
+  - epidemiology
+  - [`causaldata::nhefs_complete`](https://rdrr.io/pkg/causaldata/man/nhefs_complete.html)
+- `observational_nsw`
+  - labor economics / policy evaluation
+  - [`causaldata::nsw_mixtape`](https://rdrr.io/pkg/causaldata/man/nsw_mixtape.html)
+
+### Survival forests
+
+- `survival_veteran`
+  - clinical survival
+  - [`survival::veteran`](https://rdrr.io/pkg/survival/man/veteran.html)
+- `survival_rotterdam`
+  - oncology survival
+  - [`survival::rotterdam`](https://rdrr.io/pkg/survival/man/rotterdam.html)
+
+### Instrumental forests
+
+- `instrumental_card`
+  - education economics
+  - [`ivmodel::card.data`](https://rdrr.io/pkg/ivmodel/man/card.data.html)
+- `instrumental_schooling`
+  - returns to schooling
+  - [`ivreg::SchoolingReturns`](https://zeileis.github.io/ivreg/reference/SchoolingReturns.html)
+
+## Example
+
+``` r
+library(heteff)
+
+fit <- run_case_study("observational_nhefs", num_trees = 300, seed = 123)
+
+print(fit)
+fit$subgroup_table
+fit$variable_importance
+
+plot_observational_dag()
+plot_treatment_outcome(fit)
+plot_subgroup_effects(fit)
+plot_effect_tree(fit)
+```
+
+## Tutorials
+
+The tutorial site is organized around:
+
+- `Getting Started`
+  - synthetic observational, survival, and instrumental examples
+- observational case studies
+  - NHEFS
+  - NSW
+- survival case studies
+  - Veteran
+  - Rotterdam
+- instrumental case studies
+  - Card
+  - SchoolingReturns
+
+## What heteff cannot do yet
+
+- It does not expose all of `grf`
+- It does not implement policy learning
+- It does not implement domain-specific instrument construction
+  pipelines such as LD clumping or colocalization
+- It does not implement latent-treatment or proxy-treatment
+  identification
+- It does not provide production-grade reporting beyond tables, plots,
+  and tutorials
+
+## Package layout
+
+- `R/fit.R`: forest workflows
+- `R/plots.R`: standard interpretation plots
+- `R/simulate.R`: synthetic analysis tables
+- `R/cases.R`: public case-study helpers
+- `R/io.R`: export helpers
+- `R/instrument.R`: simple instrument-score helper
+- `vignettes/`: theory, getting-started, and case-study tutorials
+- `inst/case-studies/`: generated tutorial outputs
+
+# Package index
+
+## Core workflows
+
+- [`fit_observational_forest()`](https://dai540.github.io/heteff/reference/fit_observational_forest.md)
+  : Fit an observational causal forest workflow
+
+- [`fit_survival_forest()`](https://dai540.github.io/heteff/reference/fit_survival_forest.md)
+  : Fit a survival causal forest workflow
+
+- [`fit_instrumental_forest()`](https://dai540.github.io/heteff/reference/fit_instrumental_forest.md)
+  : Fit an instrumental forest workflow
+
+- [`case_study_catalog()`](https://dai540.github.io/heteff/reference/case_study_catalog.md)
+  :
+
+  Case-study catalog for `heteff`
+
+- [`available_case_studies()`](https://dai540.github.io/heteff/reference/available_case_studies.md)
+  : List built-in case study names
+
+- [`run_case_study()`](https://dai540.github.io/heteff/reference/run_case_study.md)
+  : Run a built-in case study
+
+- [`export_tables()`](https://dai540.github.io/heteff/reference/export_tables.md)
+  : Export output tables to CSV files
+
+- [`export_plots()`](https://dai540.github.io/heteff/reference/export_plots.md)
+  :
+
+  Write standard plots for a `heteff_fit`
+
+## Main plots
+
+- [`plot_observational_dag()`](https://dai540.github.io/heteff/reference/plot_observational_dag.md)
+  : Plot the observational causal DAG
+- [`plot_instrumental_dag()`](https://dai540.github.io/heteff/reference/plot_instrumental_dag.md)
+  : Plot the instrumental DAG
+- [`plot_treatment_outcome()`](https://dai540.github.io/heteff/reference/plot_treatment_outcome.md)
+  : Plot the treatment-outcome relationship for an observational
+  workflow
+- [`plot_first_stage()`](https://dai540.github.io/heteff/reference/plot_first_stage.md)
+  : Plot the first-stage treatment-instrument relationship
+- [`plot_reduced_form()`](https://dai540.github.io/heteff/reference/plot_reduced_form.md)
+  : Plot the reduced-form outcome-instrument relationship
+- [`plot_subgroup_effects()`](https://dai540.github.io/heteff/reference/plot_subgroup_effects.md)
+  : Plot subgroup mean effects
+- [`plot_effect_tree()`](https://dai540.github.io/heteff/reference/plot_effect_tree.md)
+  : Plot an explanation tree with a publication-style layout
+- [`plot_variable_importance()`](https://dai540.github.io/heteff/reference/plot_variable_importance.md)
+  : Plot ranked variable importance
+
+## Example data
+
+- [`simulate_observational_data()`](https://dai540.github.io/heteff/reference/simulate_observational_data.md)
+  : Simulate data for an observational causal-forest workflow
+- [`simulate_survival_data()`](https://dai540.github.io/heteff/reference/simulate_survival_data.md)
+  : Simulate data for a survival-forest workflow
+- [`simulate_instrumental_data()`](https://dai540.github.io/heteff/reference/simulate_instrumental_data.md)
+  : Simulate data for an instrumental-forest workflow
+- [`prepare_case_nhefs()`](https://dai540.github.io/heteff/reference/prepare_case_nhefs.md)
+  : Prepare the NHEFS observational case study
+- [`prepare_case_nsw()`](https://dai540.github.io/heteff/reference/prepare_case_nsw.md)
+  : Prepare the NSW observational case study
+- [`prepare_case_veteran()`](https://dai540.github.io/heteff/reference/prepare_case_veteran.md)
+  : Prepare the veteran survival case study
+- [`prepare_case_rotterdam()`](https://dai540.github.io/heteff/reference/prepare_case_rotterdam.md)
+  : Prepare the Rotterdam survival case study
+- [`prepare_case_card_data()`](https://dai540.github.io/heteff/reference/prepare_case_card_data.md)
+  : Prepare the Card returns-to-schooling case study
+- [`prepare_case_schooling_returns()`](https://dai540.github.io/heteff/reference/prepare_case_schooling_returns.md)
+  : Prepare the SchoolingReturns case study
+
+## Supplementary helpers
+
+- [`print(`*`<heteff_fit>`*`)`](https://dai540.github.io/heteff/reference/print.heteff_fit.md)
+  :
+
+  Print a `heteff_fit` summary
+
+- [`plot(`*`<heteff_fit>`*`)`](https://dai540.github.io/heteff/reference/plot.heteff_fit.md)
+  :
+
+  Plot a default subgroup-effect summary from a `heteff_fit`
+
+- [`plot_effect_distribution()`](https://dai540.github.io/heteff/reference/plot_effect_distribution.md)
+  : Plot the distribution of estimated sample-level effects
+
+- [`build_instrument_score()`](https://dai540.github.io/heteff/reference/build_instrument_score.md)
+  : Build a single instrument score from multiple columns
+
+- [`explain_effect_shap()`](https://dai540.github.io/heteff/reference/explain_effect_shap.md)
+  : Compute SHAP-style explanations for fitted local IV effects
+
+- [`summarize_shap()`](https://dai540.github.io/heteff/reference/summarize_shap.md)
+  : Summarize SHAP values into a ranked importance table
+
+- [`plot_shap_importance()`](https://dai540.github.io/heteff/reference/plot_shap_importance.md)
+  : Plot ranked SHAP importance
+
+- [`fit_causal_tree_explorer()`](https://dai540.github.io/heteff/reference/fit_causal_tree_explorer.md)
+  : Run a causalTree-style exploratory analysis
+
+- [`plot_causal_tree_explorer()`](https://dai540.github.io/heteff/reference/plot_causal_tree_explorer.md)
+  : Plot a causalTree explorer result
+
+# Articles
+
+### Core tutorials
+
+- [Getting Started with
+  heteff](https://dai540.github.io/heteff/articles/getting-started.md):
+- [Theory and
+  Design](https://dai540.github.io/heteff/articles/theory-and-design.md):
+
+### Observational forests
+
+- [Case Study:
+  NHEFS](https://dai540.github.io/heteff/articles/case-study-nhefs.md):
+- [Case Study: NSW job
+  training](https://dai540.github.io/heteff/articles/case-study-nsw.md):
+
+### Survival forests
+
+- [Case Study: Veteran
+  survival](https://dai540.github.io/heteff/articles/case-study-veteran.md):
+- [Case Study: Rotterdam
+  survival](https://dai540.github.io/heteff/articles/case-study-rotterdam.md):
+
+### Instrumental forests
+
+- [Case Study:
+  card.data](https://dai540.github.io/heteff/articles/case-study-card-data.md):
+- [Case Study:
+  SchoolingReturns](https://dai540.github.io/heteff/articles/case-study-schooling-returns.md):
