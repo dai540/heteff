@@ -3,6 +3,8 @@
 `heteff` is a focused R package for heterogeneous effect estimation with
 three generalized random forest workflows:
 
+<https://dai540.github.io/heteff/>
+
 - [`fit_observational_forest()`](https://dai540.github.io/heteff/reference/fit_observational_forest.md)
   for conditional treatment effects
 - [`fit_survival_forest()`](https://dai540.github.io/heteff/reference/fit_survival_forest.md)
@@ -26,17 +28,32 @@ Before the first public deployment:
     [`_pkgdown.yml`](https://dai540.github.io/heteff/_pkgdown.yml) with
     your actual GitHub Pages URL.
 2.  Push the whole repository to GitHub.
-3.  In the repository settings, enable GitHub Pages from the `gh-pages`
-    branch.
+3.  In the repository settings, enable GitHub Pages with
+    `Source = GitHub Actions`.
 
 This repository also includes a GitHub Actions workflow for rebuilding
 the site after updates and publishing the rendered HTML.
+
+## Citation
+
+If you use `heteff`, cite the package as:
+
+> Dai (2026). *heteff: Simple GRF Workflows for Heterogeneous Effects*.
+> R package. <https://dai540.github.io/heteff/>
+
+You can also retrieve the citation from R:
+
+``` r
+citation("heteff")
+```
 
 ## Core estimands
 
 ### Observational workflow
 
-\[ (x) = E\[Y(1) - Y(0) X = x\] \]
+``` text
+tau(x) = E[Y(1) - Y(0) | X = x]
+```
 
 ### Survival workflow
 
@@ -47,7 +64,9 @@ At a user-specified horizon, `heteff` estimates either:
 
 ### Instrumental workflow
 
-\[ (x) = \]
+``` text
+tau(x) = Cov(Y, Z | X = x) / Cov(W, Z | X = x)
+```
 
 ## What heteff does
 

@@ -78,6 +78,7 @@
 </h1>
 </div>
 <p><code>heteff</code> is a focused R package for heterogeneous effect estimation with three generalized random forest workflows:</p>
+<p><a href="https://dai540.github.io/heteff/" class="uri">https://dai540.github.io/heteff/</a></p>
 <ul>
 <li>
 <code><a href="reference/fit_observational_forest.html">fit_observational_forest()</a></code> for conditional treatment effects</li>
@@ -95,9 +96,20 @@
 <ol style="list-style-type: decimal">
 <li>Replace the placeholder <code>url:</code> line in <a href="./_pkgdown.yml"><code>_pkgdown.yml</code></a> with your actual GitHub Pages URL.</li>
 <li>Push the whole repository to GitHub.</li>
-<li>In the repository settings, enable GitHub Pages from the <code>gh-pages</code> branch.</li>
+<li>In the repository settings, enable GitHub Pages with <code>Source = GitHub Actions</code>.</li>
 </ol>
 <p>This repository also includes a GitHub Actions workflow for rebuilding the site after updates and publishing the rendered HTML.</p>
+</div>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>If you use <code>heteff</code>, cite the package as:</p>
+<blockquote>
+<p>Dai (2026). <em>heteff: Simple GRF Workflows for Heterogeneous Effects</em>. R package. <a href="https://dai540.github.io/heteff/" class="uri">https://dai540.github.io/heteff/</a></p>
+</blockquote>
+<p>You can also retrieve the citation from R:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"heteff"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="core-estimands">Core estimands<a class="anchor" aria-label="anchor" href="#core-estimands"></a>
@@ -105,7 +117,7 @@
 <div class="section level3">
 <h3 id="observational-workflow">Observational workflow<a class="anchor" aria-label="anchor" href="#observational-workflow"></a>
 </h3>
-<p>[ (x) = E[Y(1) - Y(0) X = x] ]</p>
+<pre class="text"><code>tau(x) = E[Y(1) - Y(0) | X = x]</code></pre>
 </div>
 <div class="section level3">
 <h3 id="survival-workflow">Survival workflow<a class="anchor" aria-label="anchor" href="#survival-workflow"></a>
@@ -119,7 +131,7 @@
 <div class="section level3">
 <h3 id="instrumental-workflow">Instrumental workflow<a class="anchor" aria-label="anchor" href="#instrumental-workflow"></a>
 </h3>
-<p>[ (x) =  ]</p>
+<pre class="text"><code>tau(x) = Cov(Y, Z | X = x) / Cov(W, Z | X = x)</code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -264,7 +276,7 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dai540.github.io/heteff">heteff</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_case_study.html">run_case_study</a></span><span class="op">(</span><span class="st">"observational_nhefs"</span>, num_trees <span class="op">=</span> <span class="fl">300</span>, seed <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span>
@@ -344,16 +356,7 @@
 </ul>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="developers">
-<h2 data-toc-skip>Developers</h2>
-<ul class="list-unstyled">
-<li>Dai <br><small class="roles"> Author, maintainer </small>   </li>
-</ul>
-</div>
-
-
-
-  </aside>
+  </main><aside class="col-md-3"></aside>
 </div>
 
 

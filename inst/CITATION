@@ -1,0 +1,16 @@
+citHeader("To cite heteff in publications use:")
+
+citEntry(
+  entry = "Manual",
+  title = "heteff: Simple GRF Workflows for Heterogeneous Effects",
+  author = personList(as.person("Dai")),
+  year = "2026",
+  note = "R package",
+  url = "https://dai540.github.io/heteff/",
+  textVersion = paste(
+    "Dai (2026).",
+    "heteff: Simple GRF Workflows for Heterogeneous Effects.",
+    "R package.",
+    "https://dai540.github.io/heteff/"
+  )
+)
