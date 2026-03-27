@@ -3,10 +3,16 @@
 `heteff` is a focused R package for heterogeneous effect estimation with
 three generalized random forest workflows:
 
+- Website: <https://dai540.github.io/heteff/>
+
+- GitHub: <https://github.com/dai540/heteff>
+
 - [`fit_observational_forest()`](https://dai540.github.io/heteff/reference/fit_observational_forest.md)
   for conditional treatment effects
+
 - [`fit_survival_forest()`](https://dai540.github.io/heteff/reference/fit_survival_forest.md)
   for right-censored heterogeneous survival effects
+
 - [`fit_instrumental_forest()`](https://dai540.github.io/heteff/reference/fit_instrumental_forest.md)
   for conditional local IV effects
 
