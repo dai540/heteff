@@ -13,21 +13,6 @@ The package is intentionally narrow. It does not try to wrap all of `grf`.
 Instead, it standardizes the workflows, tables, plots, and tutorials around
 the three estimators that are most useful for heterogeneous effect analysis.
 
-## Website publishing
-
-`heteff` is already structured to publish a standard pkgdown site with GitHub
-Pages.
-
-Before the first public deployment:
-
-1. Replace the placeholder `url:` line in
-   [`_pkgdown.yml`](./_pkgdown.yml) with your actual GitHub Pages URL.
-2. Push the whole repository to GitHub.
-3. In the repository settings, enable GitHub Pages with `Source = GitHub Actions`.
-
-This repository also includes a GitHub Actions workflow for rebuilding the
-site after updates and publishing the rendered HTML.
-
 ## Citation
 
 If you use `heteff`, cite the package as:
