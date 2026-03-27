@@ -13,6 +13,27 @@ The package is intentionally narrow. It does not try to wrap all of `grf`.
 Instead, it standardizes the workflows, tables, plots, and tutorials around
 the three estimators that are most useful for heterogeneous effect analysis.
 
+## Installation
+
+Install from GitHub:
+
+```r
+install.packages("pak")
+pak::pak("dai540/heteff")
+```
+
+Or install from a source tarball:
+
+```r
+install.packages("path/to/heteff_x.y.z.tar.gz", repos = NULL, type = "source")
+```
+
+Then load the package:
+
+```r
+library(heteff)
+```
+
 ## Citation
 
 If you use `heteff`, cite the package as:
