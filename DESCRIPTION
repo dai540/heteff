@@ -5,9 +5,9 @@ Version: 2.1.0
 Authors@R: c(
     person(
       given = "Dai",
-      family = "",
+      family = "Dai",
       role = c("aut", "cre"),
-      email = "dai@example.com"
+      email = "daik54015@gmail.com"
     )
   )
 Description: Provides a simple interface around three generalized random
@@ -16,7 +16,9 @@ Description: Provides a simple interface around three generalized random
     tables, subgroup summaries, explanation-tree outputs, variable-importance
     tables, diagnostics, and a compact set of plots for heterogeneous causal
     effect analysis.
-URL: https://dai540.github.io/heteff
+URL: https://dai540.github.io/heteff,
+    https://github.com/dai540/heteff
+BugReports: https://github.com/dai540/heteff/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

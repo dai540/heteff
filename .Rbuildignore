@@ -2,3 +2,10 @@
 ^\.Rproj\.user$
 ^.*\.Rproj$
 ^docs$
+^_pkgdown\.yml$
+^\.github$
+^pkgdown$
+^\.r-cache$
+^heteff$
+^.*\.tar\.gz$
+^.*\.Rcheck$

@@ -22,6 +22,13 @@ install.packages("pak")
 pak::pak("dai540/heteff")
 ```
 
+Or:
+
+```r
+install.packages("remotes")
+remotes::install_github("dai540/heteff")
+```
+
 Or install from a source tarball:
 
 ```r

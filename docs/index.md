@@ -17,22 +17,26 @@ The package is intentionally narrow. It does not try to wrap all of
 tutorials around the three estimators that are most useful for
 heterogeneous effect analysis.
 
-## Website publishing
+## Installation
 
-`heteff` is already structured to publish a standard pkgdown site with
-GitHub Pages.
+Install from GitHub:
 
-Before the first public deployment:
+``` r
+install.packages("pak")
+pak::pak("dai540/heteff")
+```
 
-1.  Replace the placeholder `url:` line in
-    [`_pkgdown.yml`](https://dai540.github.io/heteff/_pkgdown.yml) with
-    your actual GitHub Pages URL.
-2.  Push the whole repository to GitHub.
-3.  In the repository settings, enable GitHub Pages with
-    `Source = GitHub Actions`.
+Or install from a source tarball:
 
-This repository also includes a GitHub Actions workflow for rebuilding
-the site after updates and publishing the rendered HTML.
+``` r
+install.packages("path/to/heteff_x.y.z.tar.gz", repos = NULL, type = "source")
+```
+
+Then load the package:
+
+``` r
+library(heteff)
+```
 
 ## Citation
 
