@@ -5,6 +5,9 @@ site URL with a trailing slash:
 
 - https://dai540.github.io/heteff/
 
+In addition, the test runner was updated so that package checks do not fail in
+environments where `testthat` is not installed.
+
 ## Test environments
 
 - local Windows 11 x64, R 4.5.1

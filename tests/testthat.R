@@ -1,3 +1,3 @@
-library(testthat)
-
-test_check("heteff")
+if (requireNamespace("testthat", quietly = TRUE)) {
+  testthat::test_check("heteff")
+}

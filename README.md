@@ -32,7 +32,7 @@ remotes::install_github("dai540/heteff")
 Or install from a source tarball:
 
 ```r
-install.packages("path/to/heteff_x.y.z.tar.gz", repos = NULL, type = "source")
+install.packages("path/to/heteff_2.1.1.tar.gz", repos = NULL, type = "source")
 ```
 
 Then load the package:
