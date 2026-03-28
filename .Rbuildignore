@@ -9,3 +9,4 @@
 ^heteff$
 ^.*\.tar\.gz$
 ^.*\.Rcheck$
+^cran-comments\.md$

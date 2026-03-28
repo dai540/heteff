@@ -1,6 +1,9 @@
 ## Resubmission
 
-Initial submission.
+This is a resubmission. The DESCRIPTION URL was updated to use the canonical
+site URL with a trailing slash:
+
+- https://dai540.github.io/heteff/
 
 ## Test environments
 
