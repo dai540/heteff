@@ -527,7 +527,8 @@ fit_instrumental_forest <- function(
     W = analysis_data[[treatment]],
     Z = analysis_data[[instrument]],
     num.trees = num_trees,
-    min.node.size = min_node_size
+    min.node.size = min_node_size,
+    num.threads = 1
   )
 
   fit <- run_effect_pipeline(
@@ -613,7 +614,8 @@ fit_observational_forest <- function(
     Y = analysis_data[[outcome]],
     W = analysis_data[[treatment]],
     num.trees = num_trees,
-    min.node.size = min_node_size
+    min.node.size = min_node_size,
+    num.threads = 1
   )
 
   run_effect_pipeline(
@@ -709,7 +711,8 @@ fit_survival_forest <- function(
     target = target,
     horizon = horizon,
     num.trees = num_trees,
-    min.node.size = min_node_size
+    min.node.size = min_node_size,
+    num.threads = 1
   )
 
   fit <- run_effect_pipeline(
