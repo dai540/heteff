@@ -1,7 +1,8 @@
 # heteff <img src="man/figures/heteff-logo.svg" align="right" height="76" alt="heteff logo" />
 
-`heteff` is a focused R package for heterogeneous effect estimation with
-three generalized random forest workflows:
+`heteff` is an R package for causal inference with generalized random forests.
+It focuses on heterogeneous treatment effect estimation with three core
+workflows:
 
 <https://dai540.github.io/heteff/>
 
@@ -12,6 +13,12 @@ three generalized random forest workflows:
 The package is intentionally narrow. It does not try to wrap all of `grf`.
 Instead, it standardizes the workflows, tables, plots, and tutorials around
 the three estimators that are most useful for heterogeneous effect analysis.
+In practical terms, `heteff` is a generalized random forest package for
+causal forest, causal survival forest, and instrumental forest workflows in R.
+
+It is designed for analysts working on heterogeneous treatment effects,
+survival treatment heterogeneity, instrumental variables, subgroup discovery,
+and interpretable causal effect analysis.
 
 ## Installation
 

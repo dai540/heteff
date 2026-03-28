@@ -16,8 +16,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="heteff">
-<meta name="description" content="Simple generalized random forest workflows for observational, survival, and instrumental heterogeneous effect analysis.">
-<meta property="og:description" content="Simple generalized random forest workflows for observational, survival, and instrumental heterogeneous effect analysis.">
+<meta name="description" content="R package for causal inference with generalized random forests, including causal forest, causal survival forest, and instrumental forest workflows for heterogeneous effect estimation.">
+<meta property="og:description" content="R package for causal inference with generalized random forests, including causal forest, causal survival forest, and instrumental forest workflows for heterogeneous effect estimation.">
 <meta property="og:image" content="https://dai540.github.io/heteff/logo.svg">
 </head>
 <body>
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">heteff</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">2.1.0</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">2.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,7 @@
 <img src="logo.svg" class="logo" alt=""><h1 id="heteff-">heteff <a class="anchor" aria-label="anchor" href="#heteff-"></a>
 </h1>
 </div>
-<p><code>heteff</code> is a focused R package for heterogeneous effect estimation with three generalized random forest workflows:</p>
+<p><code>heteff</code> is an R package for causal inference with generalized random forests. It focuses on heterogeneous treatment effect estimation with three core workflows:</p>
 <p><a href="https://dai540.github.io/heteff/" class="uri">https://dai540.github.io/heteff/</a></p>
 <ul>
 <li>
@@ -87,7 +87,8 @@
 <li>
 <code><a href="reference/fit_instrumental_forest.html">fit_instrumental_forest()</a></code> for conditional local IV effects</li>
 </ul>
-<p>The package is intentionally narrow. It does not try to wrap all of <code>grf</code>. Instead, it standardizes the workflows, tables, plots, and tutorials around the three estimators that are most useful for heterogeneous effect analysis.</p>
+<p>The package is intentionally narrow. It does not try to wrap all of <code>grf</code>. Instead, it standardizes the workflows, tables, plots, and tutorials around the three estimators that are most useful for heterogeneous effect analysis. In practical terms, <code>heteff</code> is a generalized random forest package for causal forest, causal survival forest, and instrumental forest workflows in R.</p>
+<p>It is designed for analysts working on heterogeneous treatment effects, survival treatment heterogeneity, instrumental variables, subgroup discovery, and interpretable causal effect analysis.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -95,11 +96,15 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu">pak</span><span class="op">(</span><span class="st">"dai540/heteff"</span><span class="op">)</span></span></code></pre></div>
-<p>Or install from a source tarball:</p>
+<p>Or:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"path/to/heteff_x.y.z.tar.gz"</span>, repos <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"source"</span><span class="op">)</span></span></code></pre></div>
-<p>Then load the package:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dai540/heteff"</span><span class="op">)</span></span></code></pre></div>
+<p>Or install from a source tarball:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"path/to/heteff_2.1.1.tar.gz"</span>, repos <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"source"</span><span class="op">)</span></span></code></pre></div>
+<p>Then load the package:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dai540.github.io/heteff">heteff</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -110,7 +115,7 @@
 <p>Dai (2026). <em>heteff: Simple GRF Workflows for Heterogeneous Effects</em>. R package. <a href="https://dai540.github.io/heteff/" class="uri">https://dai540.github.io/heteff/</a></p>
 </blockquote>
 <p>You can also retrieve the citation from R:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"heteff"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -278,7 +283,7 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dai540.github.io/heteff">heteff</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/run_case_study.html">run_case_study</a></span><span class="op">(</span><span class="st">"observational_nhefs"</span>, num_trees <span class="op">=</span> <span class="fl">300</span>, seed <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span>
@@ -363,7 +368,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Dai.</p>
+  <p>Developed by Dai Dai.</p>
 </div>
 
 <div class="pkgdown-footer-right">

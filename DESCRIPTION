@@ -15,7 +15,10 @@ Description: Provides a simple interface around three generalized random
     and grf::instrumental_forest(). The package returns reusable effect
     tables, subgroup summaries, explanation-tree outputs, variable-importance
     tables, diagnostics, and a compact set of plots for heterogeneous causal
-    effect analysis.
+    effect analysis. It is designed for causal inference workflows involving
+    heterogeneous treatment effects, survival treatment heterogeneity,
+    instrumental variables, subgroup discovery, and interpretable effect
+    visualization in R.
 URL: https://dai540.github.io/heteff/,
     https://github.com/dai540/heteff
 BugReports: https://github.com/dai540/heteff/issues

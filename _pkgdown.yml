@@ -9,7 +9,7 @@ development:
 
 home:
   title: heteff
-  description: Simple generalized random forest workflows for observational, survival, and instrumental heterogeneous effect analysis.
+  description: R package for causal inference with generalized random forests, including causal forest, causal survival forest, and instrumental forest workflows for heterogeneous effect estimation.
   sidebar:
     structure: []
 
