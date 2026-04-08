@@ -10,6 +10,8 @@ Authors@R: c(
       email = "daik54015@gmail.com"
     )
   )
+Author: Dai Dai [aut, cre]
+Maintainer: Dai Dai <daik54015@gmail.com>
 Description: Provides a simple interface around three generalized random
     forest estimators: grf::causal_forest(), grf::causal_survival_forest(),
     and grf::instrumental_forest(). The package returns reusable effect

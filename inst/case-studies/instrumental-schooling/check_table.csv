@@ -1,8 +1,0 @@
-"check_name","value","status"
-"rows_used",2033,"info"
-"rows_dropped_missing",0,"ok"
-"outcome_sd",0.417797248528773,"ok"
-"treatment_sd",2.27574945420452,"ok"
-"instrument_sd",0.455100575569654,"ok"
-"cor_treatment_instrument",0.0935387940216886,"ok"
-"first_stage_f",17.9270999278102,"ok"

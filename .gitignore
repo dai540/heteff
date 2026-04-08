@@ -8,3 +8,7 @@ Thumbs.db
 
 # Local nested duplicate package copy
 /heteff/
+
+# Generated site outputs
+/docs/
+/inst/case-studies/

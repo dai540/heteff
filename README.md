@@ -223,4 +223,3 @@ The tutorial site is organized around:
 - `R/io.R`: export helpers
 - `R/instrument.R`: simple instrument-score helper
 - `vignettes/`: theory, getting-started, and case-study tutorials
-- `inst/case-studies/`: generated tutorial outputs
