@@ -1,5 +1,9 @@
 # heteff <img src="man/figures/heteff-logo.svg" align="right" height="76" alt="heteff logo" />
 
+[![pkgdown](https://img.shields.io/badge/docs-pkgdown-315c86)](https://dai540.github.io/heteff/)
+[![GitHub release](https://img.shields.io/github/v/release/dai540/heteff)](https://github.com/dai540/heteff/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 `heteff` is an R package for causal inference with generalized random forests.
 It focuses on heterogeneous treatment effect estimation with three core
 workflows:
@@ -60,6 +64,10 @@ You can also retrieve the citation from R:
 ```r
 citation("heteff")
 ```
+
+## Documentation
+
+<https://dai540.github.io/heteff/>
 
 ## Core estimands
 

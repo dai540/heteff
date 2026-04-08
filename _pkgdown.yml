@@ -5,7 +5,7 @@ template:
   bootswatch: flatly
 
 development:
-  mode: unreleased
+  mode: release
 
 home:
   title: heteff
@@ -13,10 +13,17 @@ home:
   sidebar:
     structure: []
 
+repo:
+  url:
+    home: https://github.com/dai540/heteff
+    source: https://github.com/dai540/heteff/blob/main
+    issue: https://github.com/dai540/heteff/issues/
+    user: https://github.com/
+
 navbar:
   structure:
     left: [intro, reference, articles]
-    right: [search]
+    right: [github, search]
   components:
     intro:
       text: Get Started
@@ -24,6 +31,10 @@ navbar:
     reference:
       text: Reference
       href: reference/index.html
+    github:
+      icon: fa-github
+      href: https://github.com/dai540/heteff
+      aria-label: GitHub repository
 
 articles:
   - title: Core tutorials

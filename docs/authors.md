@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/dai540/heteff/blob/HEAD/inst/CITATION)
+[`inst/CITATION`](https://github.com/dai540/heteff/blob/main/inst/CITATION)
 
 Dai D (2026). *heteff: Simple GRF Workflows for Heterogeneous Effects*.
 R package, <https://dai540.github.io/heteff/>.
