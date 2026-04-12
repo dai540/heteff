@@ -1,0 +1,120 @@
+---
+title: "Tutorials"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tutorials}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[UTF-8]{inputenc}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This page gives minimal templates for the three workflows.
+
+## Tutorial A: Observational Heterogeneous Effects
+
+```{r eval = FALSE}
+library(heteff)
+set.seed(1)
+n <- 800
+x1 <- rnorm(n)
+x2 <- rnorm(n)
+w <- rbinom(n, 1, plogis(0.5 * x1 - 0.2 * x2))
+y <- 0.5 * w + 0.8 * w * (x1 > 0) + x1 + 0.3 * x2 + rnorm(n)
+
+df <- data.frame(
+  outcome = y,
+  treatment = w,
+  x1 = x1,
+  x2 = x2
+)
+
+fit_obs <- fit_observational_forest(
+  data = df,
+  outcome = "outcome",
+  treatment = "treatment",
+  covariates = c("x1", "x2")
+)
+
+plot(fit_obs)
+head(rank_effects(fit_obs, n = 15))
+```
+
+## Tutorial B: Survival Heterogeneous Effects
+
+```{r eval = FALSE}
+set.seed(2)
+n <- 700
+x1 <- rnorm(n)
+x2 <- rnorm(n)
+w <- rbinom(n, 1, 0.5)
+time <- rexp(n, rate = exp(-0.3 * w - 0.2 * x1))
+status <- rbinom(n, 1, 0.85)
+
+df_surv <- data.frame(
+  time = time,
+  status = status,
+  treatment = w,
+  x1 = x1,
+  x2 = x2
+)
+
+fit_surv <- fit_survival_forest(
+  data = df_surv,
+  time = "time",
+  status = "status",
+  treatment = "treatment",
+  covariates = c("x1", "x2"),
+  target = "RMST",
+  horizon = 5
+)
+
+plot(fit_surv)
+head(as.data.frame(fit_surv))
+```
+
+## Tutorial C: Instrumental Heterogeneous Effects
+
+```{r eval = FALSE}
+set.seed(3)
+n <- 1000
+x1 <- rnorm(n)
+x2 <- rnorm(n)
+z <- rbinom(n, 1, plogis(0.3 * x1))
+w <- 0.7 * z + 0.4 * x1 + rnorm(n)
+y <- 1.4 * w + 0.5 * x2 + 0.6 * (x1 > 0) * w + rnorm(n)
+
+df_iv <- data.frame(
+  outcome = y,
+  treatment = w,
+  instrument = z,
+  x1 = x1,
+  x2 = x2
+)
+
+fit_iv <- fit_instrumental_forest(
+  data = df_iv,
+  outcome = "outcome",
+  treatment = "treatment",
+  instrument = "instrument",
+  covariates = c("x1", "x2")
+)
+
+plot(fit_iv)
+head(rank_effects(fit_iv, n = 20))
+```
+
+## Export Pattern
+
+```{r eval = FALSE}
+obs_table <- as.data.frame(fit_obs)
+iv_top <- rank_effects(fit_iv, n = 30)
+
+write.csv(obs_table, "observational_effects.csv", row.names = FALSE)
+write.csv(iv_top, "instrumental_top30.csv", row.names = FALSE)
+```

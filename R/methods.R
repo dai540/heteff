@@ -1,38 +1,43 @@
-#' Print a `heteff_fit` summary
+#' Common Methods for `heteff_fit` Objects
 #'
 #' @param x A `heteff_fit` object.
-#' @param ... Unused.
+#' @param ... Not used.
 #'
-#' @return The input object, invisibly.
+#' @name heteff_fit_methods
+NULL
+
+#' @rdname heteff_fit_methods
 #' @export
 print.heteff_fit <- function(x, ...) {
-  cat("heteff analysis\n")
-  cat("  workflow:", x$analysis_type, "\n")
-  cat("  estimand:", x$estimand_label, "\n")
-  cat("  rows:", nrow(x$analysis_data), "\n")
-  cat("  outcome:", x$spec$outcome, "\n")
-  cat("  treatment:", x$spec$treatment, "\n")
-  if (!is.null(x$spec$instrument)) {
-    cat("  instrument:", x$spec$instrument, "\n")
-  }
-  if (!is.null(x$spec$event)) {
-    cat("  event indicator:", x$spec$event, "\n")
-  }
-  cat("  covariates:", length(x$spec$covariates), "\n")
-  cat("  subgroups:", nrow(x$subgroup_table), "\n")
-  if (!is.null(x$estimand_table) && nrow(x$estimand_table) > 0) {
-    cat("  average estimate:", round(x$estimand_table$estimate[1], 4), "\n")
-  }
+  cat("heteff_fit\n")
+  cat("  type: ", x$type, "\n", sep = "")
+  cat("  samples: ", nrow(x$effect_table), "\n", sep = "")
+  cat(
+    "  estimate mean (sd): ",
+    format(mean(x$effect_table$estimate), digits = 4),
+    " (",
+    format(stats::sd(x$effect_table$estimate), digits = 4),
+    ")\n",
+    sep = ""
+  )
   invisible(x)
 }
 
-#' Plot a default subgroup-effect summary from a `heteff_fit`
-#'
-#' @param x A `heteff_fit` object.
-#' @param ... Passed to [plot_subgroup_effects()].
-#'
-#' @return Draws a subgroup summary plot.
+#' @rdname heteff_fit_methods
+#' @export
+as.data.frame.heteff_fit <- function(x, ...) {
+  x$effect_table
+}
+
+#' @rdname heteff_fit_methods
 #' @export
 plot.heteff_fit <- function(x, ...) {
-  plot_subgroup_effects(x, ...)
+  graphics::hist(
+    x$effect_table$estimate,
+    main = sprintf("Estimated Effects (%s)", x$type),
+    xlab = "Estimated effect",
+    border = "white",
+    col = "#377eb8"
+  )
+  invisible(x)
 }

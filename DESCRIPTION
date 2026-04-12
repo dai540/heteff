@@ -1,57 +1,28 @@
 Package: heteff
 Type: Package
-Title: Simple Generalized Random Forest Workflows for Heterogeneous Effects
-Version: 2.1.1
-Authors@R: c(
-    person(
-      given = "Dai",
-      family = "Dai",
-      role = c("aut", "cre"),
-      email = "daik54015@gmail.com"
-    )
-  )
-Author: Dai Dai [aut, cre]
-Maintainer: Dai Dai <daik54015@gmail.com>
-Description: Provides a simple interface around three generalized random
-    forest estimators: grf::causal_forest(), grf::causal_survival_forest(),
-    and grf::instrumental_forest(). The package returns reusable effect
-    tables, subgroup summaries, explanation-tree outputs, variable-importance
-    tables, diagnostics, and a compact set of plots for heterogeneous causal
-    effect analysis. It is designed for causal inference workflows involving
-    heterogeneous treatment effects, survival treatment heterogeneity,
-    instrumental variables, subgroup discovery, and interpretable effect
-    visualization in R.
-URL: https://dai540.github.io/heteff/,
-    https://github.com/dai540/heteff
-BugReports: https://github.com/dai540/heteff/issues
+Title: Minimal Forest Workflows for Heterogeneous Effect Estimation
+Version: 2.2.0
+Authors@R:
+    person(given = "Dai", email = "daik54015@gmail.com", role = c("aut", "cre"))
+Description: Provides a compact interface around selected generalized random
+    forest estimators from the 'grf' package. It focuses on heterogeneous
+    treatment effects for observational contrasts, right-censored outcomes,
+    and instrumental-variable settings, with simple output tables for ranking
+    and interpretation.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-Depends:
-    R (>= 4.2.0)
+Depends: R (>= 4.2.0)
 Imports:
+    graphics,
     grf,
-    rpart,
-    survival,
     stats,
-    utils,
-    graphics
+    utils
 Suggests:
-    AER,
-    causaldata,
-    dagitty,
-    fastshap,
-    ggplot2,
-    ggdag,
-    htetree,
-    ivreg,
-    ivmodel,
     knitr,
     pkgdown,
-    rpart.plot,
-    rmarkdown,
-    testthat (>= 3.0.0)
-Config/testthat/edition: 3
-Config/Needs/website: pkgdown
+    rmarkdown
 VignetteBuilder: knitr
+URL: https://github.com/dai540/heteff, https://dai540.github.io/heteff/
+BugReports: https://github.com/dai540/heteff/issues

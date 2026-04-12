@@ -1,14 +1,7 @@
 .Rhistory
 .RData
 .Ruserdata
-*.tar.gz
-*.Rcheck/
-.DS_Store
-Thumbs.db
-
-# Local nested duplicate package copy
-/heteff/
-
-# Generated site outputs
 /docs/
-/inst/case-studies/
+/*.Rcheck/
+/*.tar.gz
+/tmp_*

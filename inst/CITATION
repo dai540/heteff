@@ -1,10 +1,8 @@
 bibentry(
   bibtype = "Manual",
-  title = "heteff: Simple GRF Workflows for Heterogeneous Effects",
-  author = c(
-    person(given = "Dai", family = "Dai")
-  ),
+  title = "heteff: Minimal Forest Workflows for Heterogeneous Effect Estimation",
+  author = person("Dai"),
   year = "2026",
-  note = "R package",
-  url = "https://dai540.github.io/heteff/"
+  note = "R package version 2.2.0",
+  url = "https://github.com/dai540/heteff"
 )

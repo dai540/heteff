@@ -1,12 +1,5 @@
-^test$
-^\.Rproj\.user$
-^.*\.Rproj$
-^docs$
-^_pkgdown\.yml$
 ^\.github$
+^docs$
+^README\.md$
 ^pkgdown$
-^\.r-cache$
-^heteff$
-^.*\.tar\.gz$
-^.*\.Rcheck$
-^cran-comments\.md$
+^_pkgdown\.yml$

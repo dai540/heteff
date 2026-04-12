@@ -1,0 +1,54 @@
+---
+title: "Reference"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Reference}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[UTF-8]{inputenc}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## API Summary
+
+| Function | Purpose |
+|:--|:--|
+| `fit_observational_forest()` | Heterogeneous treatment effect from observational contrast |
+| `fit_survival_forest()` | Heterogeneous effect for right-censored outcomes |
+| `fit_instrumental_forest()` | Heterogeneous local effect surrogate in IV setting |
+| `rank_effects()` | Return top or bottom estimated effects |
+| `as.data.frame()` | Extract effect table |
+| `plot()` | Quick histogram of estimated effects |
+
+## Returned Object
+
+`heteff_fit` contains:
+
+- `type`
+- `fit` (raw `grf` forest object)
+- `effect_table` (`sample`, `estimate`, `std.error`)
+- `variable_importance`
+- `columns` (input mapping)
+
+## Internal Process Names
+
+The package keeps an intentionally short internal process:
+
+1. validate input columns
+2. cast covariates to numeric matrix
+3. call the selected `grf` forest
+4. build a common effect table
+5. return unified `heteff_fit` object
+
+## Typical Integration Pattern
+
+```{r eval = FALSE}
+fit <- fit_observational_forest(df, "outcome", "treatment", c("x1", "x2"))
+tab <- as.data.frame(fit)
+top <- rank_effects(fit, n = 25)
+```

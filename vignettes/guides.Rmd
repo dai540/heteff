@@ -1,0 +1,70 @@
+---
+title: "Guides"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Guides}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[UTF-8]{inputenc}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## 1. Design Principle
+
+`heteff` intentionally keeps a small API surface.
+It does not replace the full `grf` interface. It standardizes input/output for
+routine heterogeneous-effect analysis.
+
+## 2. Estimands
+
+### Observational Forest
+
+Target:
+
+\[
+\tau(x) = E[Y(1) - Y(0) \mid X=x]
+\]
+
+### Survival Forest
+
+Uses `grf::causal_survival_forest()` and predicts user-selected targets
+(for example RMST-type quantities through `predict` arguments).
+
+### Instrumental Forest
+
+Conditional local IV quantity:
+
+\[
+\tau_{IV}(x) =
+\frac{\operatorname{Cov}(Y,Z \mid X=x)}
+{\operatorname{Cov}(W,Z \mid X=x)}
+\]
+
+## 3. Assumptions (High-Level)
+
+Observational setting:
+
+- no unmeasured confounding after conditioning on baseline covariates
+- overlap in treatment assignment
+
+Instrumental setting:
+
+- instrument relevance
+- exclusion and monotonicity assumptions as required by the design
+
+Survival setting:
+
+- coherent censoring and event definitions
+- horizon/target choices aligned with the study question
+
+## 4. Practical Workflow
+
+1. Define one analysis data frame.
+2. Fix columns for outcome/treatment/instrument/covariates.
+3. Fit one forest model.
+4. Export `as.data.frame(fit)` and `rank_effects(fit)` for downstream reporting.

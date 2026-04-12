@@ -4,36 +4,23 @@
 \name{heteff-package}
 \alias{heteff}
 \alias{heteff-package}
-\title{heteff: simple GRF workflows for heterogeneous effects}
+\title{heteff: Minimal Forest Workflows for Heterogeneous Effect Estimation}
 \description{
-\code{heteff} is a small R package built around three generalized random forest
-estimators:
+\code{heteff} provides compact wrappers around selected estimators from
+\href{https://grf-labs.github.io/grf/}{grf}, focused on heterogeneous effects for
+observational, survival, and instrumental-variable settings.
 }
-\details{
+\seealso{
+Useful links:
 \itemize{
-\item \code{grf::causal_forest()}
-\item \code{grf::causal_survival_forest()}
-\item \code{grf::instrumental_forest()}
+  \item \url{https://github.com/dai540/heteff}
+  \item \url{https://dai540.github.io/heteff/}
+  \item Report bugs at \url{https://github.com/dai540/heteff/issues}
 }
 
-The package keeps the interface deliberately simple:
-\itemize{
-\item one analysis table
-\item one method-specific fitting call
-\item reusable output tables
-\item a shallow explanation tree
-\item a compact set of diagnostic plots
-}
-
-The main exported workflows are:
-\itemize{
-\item \code{fit_observational_forest()}
-\item \code{fit_survival_forest()}
-\item \code{fit_instrumental_forest()}
-}
 }
 \author{
-\strong{Maintainer}: Dai \email{dai@example.com}
+\strong{Maintainer}: Dai \email{daik54015@gmail.com}
 
 }
 \keyword{internal}

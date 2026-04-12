@@ -1,103 +1,71 @@
 url: https://dai540.github.io/heteff/
-
 template:
   bootstrap: 5
-  bootswatch: flatly
-
-development:
-  mode: release
 
 home:
   title: heteff
-  description: R package for causal inference with generalized random forests, including causal forest, causal survival forest, and instrumental forest workflows for heterogeneous effect estimation.
-  sidebar:
-    structure: []
-
-repo:
-  url:
-    home: https://github.com/dai540/heteff
-    source: https://github.com/dai540/heteff/blob/main
-    issue: https://github.com/dai540/heteff/issues/
-    user: https://github.com/
+  description: Minimal forest workflows for heterogeneous effect estimation.
 
 navbar:
   structure:
-    left: [intro, reference, articles]
-    right: [github, search]
+    left: [home, getting-started, guides, tutorials, reference]
+    right: [search, github]
   components:
-    intro:
-      text: Get Started
+    home:
+      text: Home
       href: index.html
+    getting-started:
+      text: Getting Started
+      menu:
+      - text: Getting Started
+        href: articles/getting-started.html
+    guides:
+      text: Guides
+      menu:
+      - text: Guides
+        href: articles/guides.html
+    tutorials:
+      text: Tutorials
+      menu:
+      - text: Tutorials
+        href: articles/tutorials.html
     reference:
       text: Reference
-      href: reference/index.html
-    github:
-      icon: fa-github
-      href: https://github.com/dai540/heteff
-      aria-label: GitHub repository
-
-articles:
-  - title: Core tutorials
-    navbar: Core
-    contents:
-      - getting-started
-      - theory-and-design
-  - title: Observational forests
-    navbar: Observational
-    contents:
-      - case-study-nhefs
-      - case-study-nsw
-  - title: Survival forests
-    navbar: Survival
-    contents:
-      - case-study-veteran
-      - case-study-rotterdam
-  - title: Instrumental forests
-    navbar: Instrumental
-    contents:
-      - case-study-card-data
-      - case-study-schooling-returns
+      menu:
+      - text: Function Reference
+        href: reference/index.html
+      - text: Reference Article
+        href: articles/reference.html
 
 reference:
-  - title: Core workflows
-    contents:
-      - fit_observational_forest
-      - fit_survival_forest
-      - fit_instrumental_forest
-      - case_study_catalog
-      - available_case_studies
-      - run_case_study
-      - export_tables
-      - export_plots
-  - title: Main plots
-    contents:
-      - plot_observational_dag
-      - plot_instrumental_dag
-      - plot_treatment_outcome
-      - plot_first_stage
-      - plot_reduced_form
-      - plot_subgroup_effects
-      - plot_effect_tree
-      - plot_variable_importance
-  - title: Example data
-    contents:
-      - simulate_observational_data
-      - simulate_survival_data
-      - simulate_instrumental_data
-      - prepare_case_nhefs
-      - prepare_case_nsw
-      - prepare_case_veteran
-      - prepare_case_rotterdam
-      - prepare_case_card_data
-      - prepare_case_schooling_returns
-  - title: Supplementary helpers
-    contents:
-      - print.heteff_fit
-      - plot.heteff_fit
-      - plot_effect_distribution
-      - build_instrument_score
-      - explain_effect_shap
-      - summarize_shap
-      - plot_shap_importance
-      - fit_causal_tree_explorer
-      - plot_causal_tree_explorer
+- title: Forest Fitting
+  contents:
+  - fit_observational_forest
+  - fit_survival_forest
+  - fit_instrumental_forest
+- title: Post Processing
+  contents:
+  - rank_effects
+- title: Methods
+  contents:
+  - as.data.frame.heteff_fit
+  - plot.heteff_fit
+  - print.heteff_fit
+
+articles:
+- title: Getting Started
+  navbar: Getting Started
+  contents:
+  - getting-started
+- title: Guides
+  navbar: Guides
+  contents:
+  - guides
+- title: Tutorials
+  navbar: Tutorials
+  contents:
+  - tutorials
+- title: Reference
+  navbar: Reference
+  contents:
+  - reference
